@@ -8,12 +8,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
 
+    <style>
+        .text-shadow {
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        }
+
+    </style>
+
     {% block styles %}
     {% endblock %}
 
     <title>Task Manager</title>
 </head>
 <body>
+
+    <nav class="nav-extended text-shadow light-blue darken-1"> 
+        <!-- Main Navbar -->
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">Task Manager</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">New Task</a></li>
+            <li><a href="#">Manage Categories</a></li>
+            <li><a href="#">Log Out</a></li>
+            <li><a href="#">Log In</a></li>
+            <li><a href="#">Register</a></li>
+          </ul>
+        </div>
+      </nav>
+      
+      <!-- Collapsable mobile sidenav -->
+      <ul class="sidenav" id="mobile-demo">
+          <li><h4 class="center-align light-blue-text text-darken-4">Task Manager</h4></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">New Task</a></li>
+        <li><a href="#">Manage Categories</a></li>
+        <li><a href="#">Log Out</a></li>
+        <li><a href="#">Log In</a></li>
+        <li><a href="#">Register</a></li>
+      </ul>
     
     {% block content %}
     {% endblock %}
