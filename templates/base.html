@@ -24,7 +24,9 @@
                     {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                         <li><a href="{{ url_for('add_task') }}">New Task</a></li>
-                        <li><a href="#">Manage Categories</a></li>
+                        {% if session.user|lower == "admin"|lower %}
+                            <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Log In</a></li>
@@ -41,7 +43,9 @@
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                 <li><a href="{{ url_for('add_task') }}">New Task</a></li>
-                <li><a href="#">Manage Categories</a></li>
+                {% if session.user|lower == "admin"|lower %}
+                    <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
+                {% endif %}
                 <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             {% else %}
                 <li><a href="{{ url_for('login') }}">Log In</a></li>
@@ -72,23 +76,6 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-   
-    <script>
-        $(document).ready(function () {
-    $(".sidenav").sidenav({edge: "right"});
-    $(".collapsible").collapsible();
-    $(".tooltipped").tooltip();
-    $(".datepicker").datepicker({
-        format: "dd mmmm, yyyy",
-        yearRange: 3,
-        showClearBtn: true,
-        i18n: {
-            done: "Select"
-        }
-    });
-});
-
-    </script>
     {% block scripts %}
     {% endblock %}
 </body>
