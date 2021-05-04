@@ -17,12 +17,12 @@ Check  the link below for a live preview:
 
 **User's Goal**
     - Create  a data of things todo using the application
-    - Manage their time better making use of status updates and due dates of each task
+    - Manage their time better by making use of status updates and due dates of each task
     - Prioritize tasks and make better decisions of things to accomplish first
 
 ## Features
 
-The Task Manager project is a data centric design based web application with CRUD capabilities (Create, Read, Update, Delete). More details of features of this project is provided below
+The Task Manager project is a Data Centric Based Design web application with CRUD capabilities (Create, Read, Update, Delete). More details of features of this project is provided below
 
     - For the User's
 
@@ -34,7 +34,7 @@ The Task Manager project is a data centric design based web application with CRU
                 - Create new tasks
                 - Also log out
         
-        - Register button for sigining up to use the web application
+        - Register button for signing up to use the web application
 
     - For Admin
 
@@ -53,13 +53,13 @@ The Task Manager project is a data centric design based web application with CRU
     - The project uses **CSS** to create visually pleasing content.
 
 - [Materialize 1](https://materializecss.com/)
-    - The project uses **Matrialize CSS** version 1 frontend design frame work to produce better UI/UX.
+    - The project uses **Matrialize CSS** version 1 frontend design framework to produce better UI/UX.
 
 - [Font Awesome 5](https://fontawesome.com/)
-    - The project uses **Font Awesome** version 5 icons to provide better intuitive interface for the user's.
+    - The project uses **Font Awesome** version 5 icons to provide better intuitive user experience.
 
 - [Flask](https://flask.palletsprojects.com/en/1.1.x/)
-    - The project uses the **Flask**  framework to insert dynamic contents for web app and speed backend development.
+    - The project uses the **Flask**  framework to insert dynamic contents for the web application and speed the backend development.
 
 - [MongoDB](https://www.mongodb.com/2)
     - This project uses **MongoDB** to  manage the dataset required for the domain.
@@ -79,8 +79,8 @@ The entire project has been deployed live on Heroku. Which can be accessed 👉[
 
 ### Content
 
-- The [Content](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main/08-SearchingWithinTheDatabase) prsesented in this project was provided by Code Institute learning platform, Tim Nelson leading the lessons. 
+- The [Content](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main/08-SearchingWithinTheDatabase) presented in this project was provided by Code Institute learning platform, Tim Nelson leading the lessons. 
 
 ### Acknowledgements
 
-- I grateful to Code institute for the effort they put into their lessons for building a full Stack application.
+- I am grateful to Code Institute for the effort they put into their lessons for putting together the content required for this lesson. Thanks 
