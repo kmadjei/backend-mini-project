@@ -2,7 +2,7 @@
 
 # Task Manager - Backend Development Project
 
-This is a Full Stack Web Application built using the Flask framework and MongoDB database. In this project user's can log in to create, view, update, and delete their list of tasks. If the project also allows for user's to be able to sign up for the web application if they don't have an account.
+This project is a Full Stack Web Application built using the Flask framework and MongoDB database. In this project, users can log in to create, view, update, and delete their list of tasks. The project also allows for the users to be able to sign up for the web application if they don't have access.
 
 This project was built by following the video lessons provided by the Code Institute learning platform. The objective was to build a website focused on the management of data inputs for the users of the site. 
 
@@ -38,10 +38,10 @@ The Task Manager project is a Data Centric Based Design web application with CRU
 
     - For Admin
 
-        - Admins will have the same functions as the User's and more
-        - Admins will have the ability to create and delete categories for user's 
+        - Admins will have the same functions as the users and more
+        - Admins will have the ability to create and delete categories for users 
 
-    - A search feature is included for searching for task with key words
+    - A search feature is included for searching for tasks with keywords
         - Reset button is included to clear the search field
 
 ## Technologies Used
