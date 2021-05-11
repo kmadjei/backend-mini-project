@@ -11,11 +11,13 @@ Check  the link below for a live preview:
 👉[Quick Preview](https://backend-mini-proj.herokuapp.com/)
  
 **Developer's Learning Outcome:**
+
     1. To understand how to make CRUD calls to MongoDB via a web Framework
     2. To understand the benefits of creating HTML based user interfaces to demonstrate CRUD calls 
     3. To Understand the value of good UX by creating an application using a visual framework
 
 **User's Goal**
+
     - Create  a data of things todo using the application
     - Manage their time better by making use of status updates and due dates of each task
     - Prioritize tasks and make better decisions of things to accomplish first
