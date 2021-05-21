@@ -1,3 +1,4 @@
+# accessing modules required to run the app
 import os
 from flask import (
     Flask, flash, render_template,
@@ -8,52 +9,70 @@ from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
 
-
+# instance of the the Flask class
 app = Flask(__name__)
 
+# set the config Key & values of the flask app
 app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.secret_key = os.environ.get("SECRET_KEY")
 
+# connects the flask app to the MongoDB server
 mongo = PyMongo(app)
 
 
+# binds the get_tasks function to the default routing / url view of the app
 @app.route("/")
 @app.route("/get_tasks")
 def get_tasks():
+    # finds a collection of tasks from db and returns a python list
     tasks = list(mongo.db.tasks.find())
+    # render_template("tasks.html", tasks=task) renders the tasks.html template, from
+    #  the templates folder, along with the "tasks" keyword variable
     return render_template("tasks.html", tasks=tasks)
 
 
+# binds the "/search" url route to the search function, 
+# with access to GET and POST HTTP methods for form submission
 @app.route("/search", methods=["GET", "POST"])
 def search():
+    # gets user's input value from the "query" input 
     query = request.form.get("query")
+    # finds the data that matches query search from the task collection database
+    # and returns a python list
     tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
     return render_template("tasks.html", tasks=tasks)
 
-
+# binds the "/register" url route to the register function
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # runs validation on HTTP POST request
     if request.method == "POST":
         # check if username already exists in db
         existing_user = mongo.db.users.find_one(
             {"username": request.form.get("username").lower()})
 
         if existing_user:
+            # user flash feedback message  if username exist in database
             flash("Username already exists")
+            # redirects user back to the 'register' function URL route
             return redirect(url_for("register"))
 
+        # get new user's registration info from the template
         register = {
             "username": request.form.get("username").lower(),
             "password": generate_password_hash(request.form.get("password"))
         }
+        # add new user to the db
         mongo.db.users.insert_one(register)
 
         # put the new user into 'session' cookie
         session["user"] = request.form.get("username").lower()
         flash("Registration Successful!")
+        # 
         return redirect(url_for("profile", username=session["user"]))
-
+    
+    # renders the register.html template
     return render_template("register.html")
 
 
@@ -192,8 +211,8 @@ def delete_category(category_id):
     flash("Category Successfully Deleted")
     return redirect(url_for("get_categories"))
 
-
+# runs the flask application as the main module
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"),
             port=int(os.environ.get("PORT")),
-            debug=True)
+            debug=False)

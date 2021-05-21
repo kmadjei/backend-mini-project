@@ -81,7 +81,7 @@ The entire project has been deployed live on Heroku. Which can be accessed 👉[
 
 ### Content
 
-- The [Content](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main/08-SearchingWithinTheDatabase) presented in this project was provided by Code Institute learning platform, Tim Nelson leading the lessons. 
+- The [Content](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main/08-SearchingWithinTheDatabase) presented in this project was provided by Code Institute learning platform with Tim Nelson leading the lessons. 
 
 ### Acknowledgements
 
