@@ -43,6 +43,7 @@ def search():
     tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
     return render_template("tasks.html", tasks=tasks)
 
+
 # binds the "/register" url route to the register function
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -58,7 +59,7 @@ def register():
             # redirects user back to the 'register' function URL route
             return redirect(url_for("register"))
 
-        # get new user's registration info from the template
+        # get new user's registration info from the register template
         register = {
             "username": request.form.get("username").lower(),
             "password": generate_password_hash(request.form.get("password"))
@@ -69,15 +70,17 @@ def register():
         # put the new user into 'session' cookie
         session["user"] = request.form.get("username").lower()
         flash("Registration Successful!")
-        # 
+        # redirect user to the profile function url route, with keyword variable for username
         return redirect(url_for("profile", username=session["user"]))
     
     # renders the register.html template
     return render_template("register.html")
 
 
+# binds the "/login" url route to the login function
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # runs validation for POST request method
     if request.method == "POST":
         # check if username exists in db
         existing_user = mongo.db.users.find_one(
@@ -87,36 +90,48 @@ def login():
             # ensure hashed password matches user input
             if check_password_hash(
                     existing_user["password"], request.form.get("password")):
+
+                        # put the user's name into 'session' cookie
                         session["user"] = request.form.get("username").lower()
+                        # "flash" feedback message for user using String .format() Method
                         flash("Welcome, {}".format(
                             request.form.get("username")))
+                        # redirects user to profile url route with the username
                         return redirect(url_for(
                             "profile", username=session["user"]))
             else:
                 # invalid password match
                 flash("Incorrect Username and/or Password")
+                # redirect back to login route
                 return redirect(url_for("login"))
 
         else:
             # username doesn't exist
             flash("Incorrect Username and/or Password")
+            # redirects user back to login url route / view
             return redirect(url_for("login"))
-
+    
+    # renders the login.html template
     return render_template("login.html")
 
 
+# binds the "/profile/<username>" url route to the profile(username) function
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     # grab the session user's username from db
     username = mongo.db.users.find_one(
         {"username": session["user"]})["username"]
 
+    # renders the profile.html template if user logged in successfully 
+    # with session["user"] cookie for confirmation
     if session["user"]:
         return render_template("profile.html", username=username)
 
+    # redirects user to login function view if session["user"] has no user value
     return redirect(url_for("login"))
 
 
+# binds the "/logout" url route to the logout() function
 @app.route("/logout")
 def logout():
     # remove user from session cookie
@@ -125,10 +140,14 @@ def logout():
     return redirect(url_for("login"))
 
 
+# binds the /add_task url route to the dd_task() function
 @app.route("/add_task", methods=["GET", "POST"])
 def add_task():
+    # executes functions when user sends a POST
     if request.method == "POST":
+        # allows user to update urgency of task
         is_urgent = "on" if request.form.get("is_urgent") else "off"
+        # gets user's requested POST data
         task = {
             "category_name": request.form.get("category_name"),
             "task_name": request.form.get("task_name"),
@@ -137,18 +156,27 @@ def add_task():
             "due_date": request.form.get("due_date"),
             "created_by": session["user"]
         }
+        # adds task data to the db
         mongo.db.tasks.insert_one(task)
+        # flash message feedback for user
         flash("Task Successfully Added")
+        # redirects user back to get_tasks function url route / view
         return redirect(url_for("get_tasks"))
 
+    # gets the list of categories and sort them ascending by category name
     categories = mongo.db.categories.find().sort("category_name", 1)
+    # renders the "add_task.html" with list of categories
     return render_template("add_task.html", categories=categories)
 
 
+# binds the "/edit_task/<task_id>" url route to the edit_task(task_id) function
 @app.route("/edit_task/<task_id>", methods=["GET", "POST"])
 def edit_task(task_id):
+    # executes functions when user sends a POST
     if request.method == "POST":
+        # allows user to update urgency of task
         is_urgent = "on" if request.form.get("is_urgent") else "off"
+        # gets user's update data for the task
         submit = {
             "category_name": request.form.get("category_name"),
             "task_name": request.form.get("task_name"),
@@ -157,27 +185,39 @@ def edit_task(task_id):
             "due_date": request.form.get("due_date"),
             "created_by": session["user"]
         }
+        # updates the task in the db with new data and BSON ObjectID
         mongo.db.tasks.update({"_id": ObjectId(task_id)}, submit)
+        # flash message feedback for the user
         flash("Task Successfully Updated")
 
+    # gets task to be edited using BSON Object_ID
     task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
+    # gets the list of categories and sort them ascending by category name
     categories = mongo.db.categories.find().sort("category_name", 1)
+    # renders the "edit_task.html" template with task and categories variables
     return render_template("edit_task.html", task=task, categories=categories)
 
 
+# binds the "/delete_task/<task_id>" url route to the delete_task(task_id) function
 @app.route("/delete_task/<task_id>")
 def delete_task(task_id):
+    # deletes the task for the selected ObjectId
     mongo.db.tasks.remove({"_id": ObjectId(task_id)})
+    # user flash message feedback
     flash("Task Successfully Deleted")
+    # redirects user to the "get_tasks" function url route / view
     return redirect(url_for("get_tasks"))
 
 
+# binds the "/get_categories" url route to the get_categories() function
 @app.route("/get_categories")
 def get_categories():
+    # gets all the categories ,sorted by category name, and returns python list element
     categories = list(mongo.db.categories.find().sort("category_name", 1))
+    # renders the categories.html template along with the values for categories
     return render_template("categories.html", categories=categories)
 
-
+# binds the "/add_category" url route to the add_category() function
 @app.route("/add_category", methods=["GET", "POST"])
 def add_category():
     if request.method == "POST":
@@ -204,11 +244,14 @@ def edit_category(category_id):
     category = mongo.db.categories.find_one({"_id": ObjectId(category_id)})
     return render_template("edit_category.html", category=category)
 
-
+# binds the "/delete_category/<category_id>" url route to the delete_category(category_id) function
 @app.route("/delete_category/<category_id>")
 def delete_category(category_id):
+    # deletes selected category
     mongo.db.categories.remove({"_id": ObjectId(category_id)})
+    #  user flash message feedback
     flash("Category Successfully Deleted")
+    # redirect user to the "get_categories" function url route / view
     return redirect(url_for("get_categories"))
 
 # runs the flask application as the main module
