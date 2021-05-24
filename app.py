@@ -221,27 +221,39 @@ def get_categories():
 @app.route("/add_category", methods=["GET", "POST"])
 def add_category():
     if request.method == "POST":
+        # grabs the category_name value when user submits request
         category = {
             "category_name": request.form.get("category_name")
         }
+        # adds new category to db
         mongo.db.categories.insert_one(category)
+        # flash message feedback for user
         flash("New Category Added")
+        # redirects user to the get_categories function url route / view
         return redirect(url_for("get_categories"))
-
+    
+    # renders the "add_category.html" template
     return render_template("add_category.html")
 
 
+# binds the "/edit_category/<category_id>" url route to the edit_category(category_id) function
 @app.route("/edit_category/<category_id>", methods=["GET", "POST"])
 def edit_category(category_id):
     if request.method == "POST":
+        # grabs category name object submitted by user
         submit = {
             "category_name": request.form.get("category_name")
         }
+        # updates the category for the selected id
         mongo.db.categories.update({"_id": ObjectId(category_id)}, submit)
+        # flash message feedback for user
         flash("Category Successfully Updated")
+        # redirects user to the "get_categories" function url route / view
         return redirect(url_for("get_categories"))
 
+    # gets the selected category from the db
     category = mongo.db.categories.find_one({"_id": ObjectId(category_id)})
+    # renders the "edit_category.html" template along with category keyword argument
     return render_template("edit_category.html", category=category)
 
 # binds the "/delete_category/<category_id>" url route to the delete_category(category_id) function
