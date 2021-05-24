@@ -17,18 +17,22 @@
         <!-- top navbar -->
 		<nav class="nav-extended text-shadow light-blue darken-1">
 			<div class="nav-wrapper">
+                <!-- Links to the "get_tasks" function in app.py -->
 				<a href="{{ url_for('get_tasks') }}" class="brand-logo">Task Manager</a>
 				<a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="fas fa-bars"></i></a>
 				<ul class="right hide-on-med-and-down">
 					<li><a href="{{ url_for('get_tasks') }}">Home</a></li>
+                    <!-- Displays if user logs in -->
                     {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
                         <li><a href="{{ url_for('add_task') }}">New Task</a></li>
+                        <!-- Displays on website if user is an admin -->
                         {% if session.user|lower == "admin"|lower %}
                             <li><a href="{{ url_for('get_categories') }}">Manage Categories</a></li>
                         {% endif %}
                         <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                     {% else %}
+                    <!-- displays when user logs out -->
                         <li><a href="{{ url_for('login') }}">Log In</a></li>
                         <li><a href="{{ url_for('register') }}">Register</a></li>
                     {% endif %}
@@ -55,7 +59,7 @@
 	</header>
 
     <section>
-        <!-- flash messages -->
+        <!-- access flash message object for user feedback  -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
